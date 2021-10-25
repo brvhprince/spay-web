@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import CustomNavbar from '../components/CustomNavbar';
 import ServiceData from '../components/Service/ServiceData';
 import Banner from "../components/Banner";
@@ -8,18 +8,30 @@ import Footer from "../components/Footer";
 import Subscribe from "../components/Subscribe";
 
 const Home = () => {
+    const [loading, setLoading] = useState(false);
     const handleSubscriber = email => {
-        console.log('email', email);
-        fetch('https://www.colorbrace.com/subscribe', {method: 'POST', mode:'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({email})})
+        if (email === '') return;
+        setLoading(true);
+        fetch('https://www.colorbrace.com/subscribe', {method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({email})})
             .then(res=>res.json())
             .then((data)=>{
+                setLoading(false);
                 if (data.status === 200) {
                     alert(data.message);
                 }else {
                     alert('An error occurred: '+data.message)
                 }
+
             })
-            .catch((err) => alert(err.message || 'An error occurred retry'));
+            .catch((err) => {
+                setLoading(false);
+                alert(err.message || 'An error occurred retry')
+            });
     }
         return(
             <div className="body_wrapper">
@@ -27,7 +39,7 @@ const Home = () => {
                     <Banner/>
                     <HowItWorks />
                     <Service ServiceData={ServiceData}/>
-                    <Subscribe handleSend={handleSubscriber} />
+                    <Subscribe handleSend={handleSubscriber} loading={loading} />
                     <Footer fClass="pt_150" />
             </div>
         )

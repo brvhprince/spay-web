@@ -2,13 +2,11 @@ import React, {useState} from 'react';
 
 const Subscribe =(props)=>{
     const [email, setEmail] = useState('');
-    const [loading, setLoading] = useState(false);
+
     const handleSub = () => {
         if (email ==='') return alert('Please enter your email address');
-        setLoading(true);
         props.handleSend(email);
         setEmail('');
-        setLoading(false);
     }
     return(
         <section className="support_home_area">
@@ -21,7 +19,7 @@ const Subscribe =(props)=>{
                             <form className="mailchimp wow fadeInUp" data-wow-delay="0.6s" method="post">
                                 <div className="input-group subcribes">
                                     <input type="email" name="email" className="form-control memail" onChange={(e)=>setEmail(e.target.value)} value={email} placeholder="name@domain.com"/>
-                                    <button className="btn btn_submit f_size_15 f_500" onClick={handleSub} disabled={loading} type="button">{loading ? 'Processing' : 'Join Launch'}</button>
+                                    <button className="btn btn_submit f_size_15 f_500" onClick={handleSub} disabled={props.loading} type="button">{props.loading ? 'Processing' : 'Join Launch'}</button>
                                 </div>
                             </form>
                         </div>

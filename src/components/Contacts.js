@@ -26,7 +26,12 @@ class Contacts extends Component {
         if (subject === '') return alert('Please enter a subject');
         if (message === '') return alert('Please enter a message');
         this.setState({emailStatus:true})
-        fetch('https://www.colorbrace.com/sendmail', {method: 'POST', mode:'no-cors', headers: {'Content-Type': 'application/json'},body:JSON.stringify({name,email,subject,message}) })
+        fetch('https://www.colorbrace.com/sendmail', {method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({name,email,subject,message}) })
             .then((res)=>res.json())
             .then((data)=>{
                 if (data.status === 200) {
